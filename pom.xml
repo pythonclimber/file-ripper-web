@@ -78,8 +78,6 @@
                         <configuration>
                             <includeStale>false</includeStale>
                             <style>GOOGLE</style>
-<!--                            <formatMain>true</formatMain>-->
-<!--                            <formatTest>true</formatTest>-->
                             <filterModified>false</filterModified>
                             <skip>false</skip>
                             <fixImports>false</fixImports>
@@ -89,6 +87,29 @@
                             <goal>format</goal>
                         </goals>
                         <phase>process-sources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.4.2</version>
+                <executions>
+                    <execution>
+                        <id>default-copy-resources</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <overwrite>true</overwrite>
+                            <outputDirectory>${project.build.directory}/${project.artifactId}-${project.version}/WEB-INF/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/src/main/resources</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
