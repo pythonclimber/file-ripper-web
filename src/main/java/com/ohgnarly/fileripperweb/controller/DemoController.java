@@ -5,6 +5,8 @@ import com.ohgnarly.fileripper.FileRipper;
 import com.ohgnarly.fileripperweb.model.FileRequest;
 import com.ohgnarly.fileripperweb.model.FileResponse;
 import lombok.SneakyThrows;
+import org.apache.commons.io.FileUtils;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static java.lang.String.format;
+import static java.util.Objects.isNull;
 import static org.apache.commons.lang3.StringUtils.split;
 
 @RestController
@@ -27,7 +30,7 @@ public class DemoController {
     this.fileRipper = new FileRipper();
   }
 
-  @PostMapping(value = "/api/rip-file")
+  @PostMapping(value = "/api/rip-file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<FileResponse> ripFile(@ModelAttribute FileRequest fileRequest) {
     try {
       File file = createFile(fileRequest.getFile());
@@ -42,8 +45,14 @@ public class DemoController {
   @SneakyThrows
   private File createFile(MultipartFile file) {
     String filename = file.getOriginalFilename();
-    String prefix = split(filename, '.')[0];
-    String ext = split(filename, '.')[1];
+
+    String[] parts = split(filename, '.');
+    if (isNull(parts) || parts.length != 2) {
+      throw new IllegalArgumentException("Invalid file supplied");
+    }
+
+    String prefix = parts[0];
+    String ext = parts[1];
 
     if (!Files.exists(Paths.get("files"))) {
       Files.createDirectory(Paths.get("files"));
