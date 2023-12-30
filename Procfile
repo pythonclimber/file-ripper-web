@@ -1,1 +1,1 @@
-web: java -jar target/file-ripper-web.war
+web: java -jar target/file-ripper-web.jar
