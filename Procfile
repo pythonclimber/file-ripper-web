@@ -1,0 +1,1 @@
+web: java -jar target/file-ripper-demo-jar-with-dependencies.jar
