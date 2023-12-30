@@ -1,0 +1,57 @@
+/* You can add global styles to this file, and also import other style files */
+
+.red {
+  background-color: lightsalmon;
+}
+
+.blue {
+  background-color: cyan;
+}
+
+.green {
+  background-color: lightseagreen;
+}
+
+body {
+  background-color: #1f2d40;
+}
+
+.yellow {
+  background-color: palegoldenrod;
+}
+
+.purple {
+  background-color: mediumpurple;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
+
+.collapse {
+  display: none;
+}
+
+.alert {
+  font-weight: bold;
+}
+
+.alert-danger {
+  color: red;
+}
+
+.dropdown {
+  width: 16rem;
+}
+
+.extra-space {
+  padding: 15px;
+}
+

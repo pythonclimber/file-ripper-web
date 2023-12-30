@@ -1,0 +1,19 @@
+<div class="p-grid input-group">
+  <div class="p-col-12 no-pad-bottom">
+    <label>{{ header }}</label>
+  </div>
+  <div class="p-col-12 no-pad-top">
+    <input type="text"
+           pInputText
+           [(ngModel)]="text"
+           maxlength="{{maxlength}}"
+           [disabled]="disabled"
+           (ngModelChange)="onTextChange()"/>
+  </div>
+  <div class="p-col-12 no-pad-top {{ !!infoMessage ? 'visible' : 'hidden' }}">
+    <label>{{ infoMessage }}</label>
+  </div>
+  <div class="p-col-12 alert no-pad-top {{ invalid ? 'visible' : 'hidden' }}">
+    <label style="color: red;">{{ errorMessage }}</label>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+.root {
+  background-color: #1f2d40;
+  height: 100%;
+}
+
+.lighter {
+  background-color: #dedede;
+}
+
+.no-pad-bottom {
+  padding-bottom: 0;
+}
+
+.no-pad-top {
+  padding-top: 0;
+}
+
+.input-group {
+  margin: 0 8px;
+}
+
+label {
+  color: #9b9b9b;
+}
+
+#input-file {
+  width: 16rem;
+}

@@ -1,0 +1,125 @@
+<div class="p-grid root">
+  <div class="p-col-12 p-lg-7">
+    <div class="p-grid">
+      <div class="p-col-12 p-md-6">
+        <div class="p-grid input-group">
+          <div class="p-col-12 no-pad-bottom">
+            <label for="file-type">File Type:</label>
+          </div>
+          <div class="p-col-12 no-pad-top">
+            <p-dropdown id="file-type"
+                        [options]="fileTypes"
+                        [(ngModel)]="fileDefinition.fileType"
+                        optionLabel="name"
+                        optionValue="value"
+                        placeholder="Select File Type:"
+                        [showClear]="true"
+                        (onChange)="onFileTypeChange()"
+                        [styleClass]="'dropdown'">
+            </p-dropdown>
+          </div>
+          <div
+            class="p-col-12 alert no-pad-top {{ fileDefinitionValidation.isFileTypeInvalid ? 'visible' : 'hidden' }}">
+            <label style="color: red;">File Type is required</label>
+          </div>
+        </div>
+        <div class="p-grid input-group">
+          <div class="p-col-12 no-pad-bottom">
+            <label for="has-header">Has Header:</label>
+          </div>
+          <div class="p-col-12 no-pad-top">
+            <p-dropdown id="has-header"
+                        [options]="boolOptions"
+                        [(ngModel)]="fileDefinition.hasHeader"
+                        optionLabel="name"
+                        optionValue="value"
+                        placeholder="Has Header Row?"
+                        [showClear]="true"
+                        [disabled]="fileDefinition.fileType == 'XML'"
+                        [styleClass]="'dropdown'">
+            </p-dropdown>
+          </div>
+          <div
+            class="p-col-12 alert no-pad-top {{ fileDefinitionValidation.isHasHeaderInvalid ? 'visible' : 'hidden' }}">
+            <label style="color: red;">Has Header is required</label>
+          </div>
+        </div>
+        <div class="p-grid input-group">
+          <div class="p-col-12 no-pad-bottom">
+            <label for="input-file">File to Rip:</label>
+          </div>
+          <div class="p-col-12 no-pad-top">
+            <input #inputFile type="file" id="input-file" pInputText (change)="addFile($event.target.files)"/>
+          </div>
+          <div class="p-col-12 alert no-pad-top {{ fileDefinitionValidation.isFileInvalid ? 'visible' : 'hidden' }}">
+            <label style="color: red;">File is required</label>
+          </div>
+        </div>
+      </div>
+      <div class="p-col-12 p-md-6">
+        <app-text-input [(text)]="fileDefinition.delimiter"
+                        [disabled]="fileDefinition.fileType != delimitedType.value"
+                        [invalid]="fileDefinitionValidation.isDelimiterInvalid"
+                        [errorMessage]="'Delimiter is required'"
+                        [header]="'Delimiter:'"
+                        [maxlength]="5">
+        </app-text-input>
+        <app-text-input [(text)]="fileDefinition.recordXmlElement"
+                        [disabled]="fileDefinition.fileType != xmlType.value"
+                        [invalid]="fileDefinitionValidation.isRecordXmlElementInvalid"
+                        [errorMessage]="'Record XML Element is required'"
+                        [header]="'Record XML Element:'"
+                        [maxlength]="50">
+        </app-text-input>
+        <div class="p-grid input-group">
+          <div class="p-col-12 no-pad-bottom" style="visibility: hidden;">
+            <label>This should be invisible</label>
+          </div>
+          <div class="p-col-12">
+            <div class="p-grid">
+              <div class="p-col-4">
+                <p-button label="Submit" (click)="submitFile()"></p-button>
+              </div>
+              <div class="p-col-5">
+                <p-button label="Add Field" (click)="addField()"></p-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-grid">
+      <div
+        class="p-col-12 alert no-pad-top  {{ fileDefinitionValidation.isFieldDefinitionListInvalid ? 'visible' : 'hidden' }}">
+        <label style="color: red;">At least one Field Definition is required</label>
+      </div>
+      <div class="p-col-12">
+        <app-field-definition-table [fileDefinition]="fileDefinition"
+                                    (editField)="editField($event)">
+        </app-field-definition-table>
+      </div>
+    </div>
+  </div>
+  <div class="p-col-12 p-lg-5 lighter">
+    <ngx-json-viewer [json]="data"
+                     [expanded]="true">
+    </ngx-json-viewer>
+  </div>
+</div>
+
+<app-add-field [showAddField]="showAddField" (submit)="completeAddEdit($event)"
+               [fileType]="fileDefinition.fileType" [editMode]="editMode"></app-add-field>
+
+<p-dialog header="Error Ripping File"
+          [(visible)]="displayErrorDialog"
+          [style]="{width: '50vw'}"
+          [baseZIndex]="10000"
+          [closable]="false"
+          [resizable]="false"
+          [draggable]="false"
+          [modal]="true">
+  <p class="alert alert-danger">{{ errorMessage }}</p>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="displayErrorDialog=false" label="Ok" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

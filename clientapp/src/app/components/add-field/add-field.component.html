@@ -1,0 +1,59 @@
+<p-dialog [(visible)]="showAddField"
+          (onShow)="initializeDialog()"
+          [closable]="false" [modal]="true"
+          [draggable]="false"
+          [resizable]="false">
+  <div class="p-grid extra-space">
+    <fieldset class="extra-space">
+      <legend>Add New Field</legend>
+      <app-field-text-input [visible]="true"
+                            [invalid]="fieldDefinitionValidation.isFieldNameInvalid"
+                            [maxlength]="50"
+                            [fieldLabel]="'Field Name'"
+                            [(text)]="fieldDefinition.fieldName"
+                            [errorMessage]="'Field Name is required'">
+      </app-field-text-input>
+      <app-field-text-input [visible]="fileType == xmlType.value"
+                            [invalid]="false"
+                            [maxlength]="50"
+                            [fieldLabel]="'XML Field Name'"
+                            [(text)]="fieldDefinition.xmlFieldName"
+                            [infoMessage]="'*only if different than field name'">
+      </app-field-text-input>
+      <app-number-input [(value)]="fieldDefinition.startPosition"
+                        [minimum]="0"
+                        [invalid]="fieldDefinitionValidation.isStartPositionInvalid"
+                        [label]="'Start Position'"
+                        [validationMessage]="'Start Position is required'"
+                        [visible]="fileType == fixedType.value"
+                        [id]="'start-position'">
+      </app-number-input>
+      <app-number-input [(value)]="fieldDefinition.fieldLength"
+                        [minimum]="0"
+                        [invalid]="fieldDefinitionValidation.isFieldLengthInvalid"
+                        [label]="'Field Length'"
+                        [validationMessage]="'Field Length is required'"
+                        [visible]="fileType == fixedType.value"
+                        [id]="'field-length'">
+      </app-number-input>
+      <app-number-input [(value)]="fieldDefinition.positionInRow"
+                        [minimum]="0"
+                        [invalid]="fieldDefinitionValidation.isPositionInRowInvalid"
+                        [label]="'Position in Row'"
+                        [validationMessage]="'Position in Row is required'"
+                        [visible]="fileType == delimitedType.value"
+                        [id]="'position-in-row'">
+      </app-number-input>
+      <div class="p-col extra-space">
+        <div class="p-grid">
+          <div class="p-col-6">
+            <p-button label="Submit" (click)="onSubmit()"></p-button>
+          </div>
+          <div class="p-col-6">
+            <p-button class="p-button-danger" label="Cancel" (click)="toggleModal()"></p-button>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+</p-dialog>

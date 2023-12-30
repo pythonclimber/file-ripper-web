@@ -1,0 +1,21 @@
+<div *ngIf="visible" class="p-col extra-space">
+  <div class="p-inputgroup">
+          <span class="p-inputgroup-addon">
+            <i class="pi pi-info-circle"></i>
+          </span>
+    <span class="p-float-label">
+            <input pInputText
+                   type="text"
+                   [(ngModel)]="text"
+                   (ngModelChange)="onTextChange()"
+                   [maxlength]="maxlength"/>
+            <label>{{ fieldLabel }}</label>
+          </span>
+  </div>
+  <span>
+    <label>{{ infoMessage }}</label>
+  </span>
+  <span class="alert alert-danger {{ invalid ? 'visible' : 'hidden' }}">
+    <label>{{ errorMessage }}</label>
+  </span>
+</div>

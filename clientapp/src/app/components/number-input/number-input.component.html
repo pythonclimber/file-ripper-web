@@ -1,0 +1,18 @@
+<div *ngIf="visible" class="p-col extra-space">
+  <div class="p-inputgroup">
+    <span class="p-inputgroup-addon">
+      <i class="pi pi-info-circle"></i>
+    </span>
+    <span class="p-float-label">
+      <p-inputNumber [id]="id"
+                     [(ngModel)]="value"
+                     [min]="minimum"
+                     (ngModelChange)="onValueChange()">
+      </p-inputNumber>
+      <label [for]="id">{{label}}</label>
+    </span>
+  </div>
+  <span class="alert alert-danger {{ invalid ? 'visible' : 'hidden' }}">
+    <label>{{validationMessage}}</label>
+  </span>
+</div>
