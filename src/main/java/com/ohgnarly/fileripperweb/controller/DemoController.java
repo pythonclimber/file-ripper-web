@@ -4,6 +4,7 @@ import com.ohgnarly.fileripper.FileOutput;
 import com.ohgnarly.fileripper.FileRipper;
 import com.ohgnarly.fileripperweb.model.FileRequest;
 import com.ohgnarly.fileripperweb.model.FileResponse;
+import com.ohgnarly.fileripperweb.model.FileWrapper;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.MediaType;
@@ -30,12 +31,12 @@ public class DemoController {
     this.fileRipper = new FileRipper();
   }
 
+  @SneakyThrows
   @PostMapping(value = "/api/rip-file", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<FileResponse> ripFile(@ModelAttribute FileRequest fileRequest) {
-    try {
-      File file = createFile(fileRequest.getFile());
-      FileOutput output = fileRipper.ripFile(file, fileRequest.convertFileDefinition());
-      Files.delete(file.toPath());
+    try (FileWrapper fw = createFile(fileRequest.getFile())) {
+      FileOutput output =
+          fileRipper.ripFile(fw.getFileObject(), fileRequest.convertFileDefinition());
       return ResponseEntity.ok(FileResponse.builder().fileOutput(output).build());
     } catch (Exception ex) {
       return ResponseEntity.ok(FileResponse.builder().errorMessage(ex.getMessage()).build());
@@ -43,7 +44,7 @@ public class DemoController {
   }
 
   @SneakyThrows
-  private File createFile(MultipartFile file) {
+  private FileWrapper createFile(MultipartFile file) {
     String filename = file.getOriginalFilename();
 
     String[] parts = split(filename, '.');
@@ -62,6 +63,6 @@ public class DemoController {
         Files.createFile(
             Paths.get("files", format("%s-%s.%s", prefix, System.currentTimeMillis(), ext)));
     file.transferTo(filepath);
-    return filepath.toFile();
+    return new FileWrapper(filepath.toFile());
   }
 }

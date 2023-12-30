@@ -12,9 +12,7 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 public class FileRipperWebApplication {
   public static void main(String[] args) {
     SpringApplication app = new SpringApplication(FileRipperWebApplication.class);
-    String port = isNotBlank(getenv("PORT"))
-            ? getenv("PORT")
-            : "3000";
+    String port = isNotBlank(getenv("PORT")) ? getenv("PORT") : "3000";
     app.setDefaultProperties(Collections.singletonMap("server.port", port));
     app.run(args);
   }
