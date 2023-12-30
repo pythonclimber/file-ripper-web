@@ -1,1 +1,1 @@
-web: java -jar target/file-ripper-web-jar-with-dependencies.jar
+web: java -jar target/file-ripper-web.war
