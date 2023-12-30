@@ -49,7 +49,9 @@ public class DemoController {
       Files.createDirectory(Paths.get("files"));
     }
 
-    Path filepath = Files.createFile(Paths.get("files", format("%s-%s.%s", prefix, System.currentTimeMillis(), ext)));
+    Path filepath =
+        Files.createFile(
+            Paths.get("files", format("%s-%s.%s", prefix, System.currentTimeMillis(), ext)));
     file.transferTo(filepath);
     return filepath.toFile();
   }

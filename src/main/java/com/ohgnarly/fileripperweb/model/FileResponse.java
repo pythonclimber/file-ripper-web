@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FileResponse {
-    private String errorMessage;
-    private FileOutput fileOutput;
+  private String errorMessage;
+  private FileOutput fileOutput;
 }
